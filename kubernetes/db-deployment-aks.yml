@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp-db
+  minReadySeconds: 5
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: myapp-db
+    spec:
+      containers:
+        - name: myapp-database
+          image: mcr.microsoft.com/mssql/server
+          ports:
+            - containerPort: 1433
+          env:
+            - name: "ACCEPT_EULA"
+              value: "Y"
+            - name: "SA_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: mssql
+                  key: SA_PASSWORD 
+            - name: "MSSQL_PID"
+              value: "Express"
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+      volumes:
+      - name: mssqldb
+        persistentVolumeClaim:
+          claimName: azure-volume-claim
+
+
