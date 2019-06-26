@@ -19,7 +19,9 @@ namespace frontend
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            #if DEBUG
                 .UseContentRoot(Path.Combine(Directory.GetCurrentDirectory(), "src"))
+            #endif
                 .UseStartup<Startup>();
     }
 }

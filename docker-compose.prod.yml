@@ -1,0 +1,22 @@
+version: '3'
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Prod.Dockerfile
+    ports:
+      - 80:80
+    environment:
+      SQLSERVER_CONNECTIONSTRING: "Server=sqlserver;Database=myapp;User=sa;Password=Password_123;MultipleActiveResultSets=true;"
+    depends_on: 
+      - sqlserver
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Password_123"
+      MSSQL_PID: "Express"
+      
+
