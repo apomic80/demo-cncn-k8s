@@ -12,7 +12,7 @@ namespace frontend.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.Message = "My App 2";
+            ViewBag.Message = "My App";
             return View();
         }
 
